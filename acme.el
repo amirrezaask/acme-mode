@@ -15,9 +15,12 @@
 
 (defun acme/--new-window-and-switch (cmd)
   "Create a new window called CMD and switch to it."
-  (split-window-below)
-  (other-window 1)
-  (switch-to-buffer (acme/--output-buffer-name)))
+  ;; TODO: need more sophisticated implementation. if current window has an ACME buffer don't do anything
+  (let ((buff-name (acme/--output-buffer-name)))
+    (unless (get-buffer buff-name)
+      (split-window-below))
+    (other-window 1)
+    (switch-to-buffer buff-name)))
 
 ;;;###autoload
 (defun acme/exec-command-in-region ()
