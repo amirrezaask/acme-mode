@@ -9,12 +9,15 @@
   (interactive)
   (start-process-shell-command cmd (buffer-name) cmd))
 
+(defun acme/--output-buffer-name ()
+  "Return buffer name for output buffer."
+  (format "ACME: %s" default-directory))
 
 (defun acme/--new-window-and-switch (cmd)
   "Create a new window called CMD and switch to it."
   (split-window-below)
   (other-window 1)
-  (switch-to-buffer cmd))
+  (switch-to-buffer (acme/--output-buffer-name)))
 
 ;;;###autoload
 (defun acme/exec-command-in-region ()
