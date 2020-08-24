@@ -1,17 +1,20 @@
-;;;###autoload
 (defun acme/--active-region ()
+  "Get the content of the active region."
   (interactive)
   (buffer-substring (region-beginning) (region-end)))
 
 
 (defun acme/--exec-command-from-region (cmd)
+  "Execute CMD in an async process."
   (interactive)
-  (insert (shell-command-to-string cmd)))
+  (start-process-shell-command cmd (buffer-name) cmd))
 
 
 (defun acme/--new-window-and-switch (cmd)
-  "Create a new window and switch to it."
-  (switch-to-buffer-other-window (format "*ACME: %s" cmd)))
+  "Create a new window called CMD and switch to it."
+  (split-window-below)
+  (other-window 1)
+  (switch-to-buffer cmd))
 
 ;;;###autoload
 (defun acme/exec-command-in-region ()
