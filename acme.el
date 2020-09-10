@@ -17,7 +17,7 @@
   "Create a new window called CMD and switch to it."
   ;; TODO: need more sophisticated implementation. if current window has an ACME buffer don't do anything
   (let ((buff-name (acme/--output-buffer-name)))
-    (unless (get-buffer buff-name)
+    (unless (or (get-buffer buff-name) (> (length (window-list)) 2))
       (split-window-below))
     (other-window 1)
     (switch-to-buffer buff-name)))
@@ -37,19 +37,10 @@
   (let ((path (acme/--active-region)))
     (acme/--new-window-and-switch path)
     (find-file path)))
-
-(defun acme/--initialize ()
-  "Initialize acme-mode."
-  ;; Execute active region
-  (global-set-key [mouse-2] 'acme/exec-command-in-region)
-  (global-set-key (kbd "C-s-e") 'acme/exec-command-in-region)
-  ;; open path in active region
-  (global-set-key [mouse-3] 'acme/open-path-in-region)
-  (global-set-key (kbd "C-s-o") 'acme/open-path-in-region))
   
 (define-minor-mode acme-mode
   "Acme simulation layer for Emacs."
-  :global t
-  :after-hook (acme/--initialize))
+  :global t)
+
 
 (provide 'acme)
