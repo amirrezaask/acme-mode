@@ -24,15 +24,10 @@
 
 ;;; Code:
 
-
-
-(provide 'acme)
-;;; acme.el ends here
-
+(defun acme/--active-region ()
   "Get the content of the active region."
   (interactive)
   (buffer-substring (region-beginning) (region-end)))
-
 
 (defun acme/--exec-command-from-region (cmd)
   "Execute CMD in an async process."
@@ -74,3 +69,4 @@
 
 
 (provide 'acme)
+;;; acme.el ends here
