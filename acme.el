@@ -38,13 +38,18 @@
   "Return buffer name for output buffer."
   (format "ACME: %s" default-directory))
 
+(defun acme/--is-acme-result-buffer (name)
+  "return non-nil if given buffer is Acme buffer."
+  (setq-local case-fold-search nil)
+  (string-match-p "ACME.*" name))
+
 (defun acme/--new-window-and-switch (cmd)
   "Create a new window called CMD and switch to it."
   ;; TODO: need more sophisticated implementation. if current window has an ACME buffer don't do anything
   (let ((buff-name (acme/--output-buffer-name)))
-    (unless (or (get-buffer buff-name) (> (length (window-list)) 2))
-      (split-window-below))
-    (other-window 1)
+    (unless (acme/--is-acme-result-buffer (buffer-name (current-buffer)))
+      (split-window-below)
+      (other-window 1))
     (switch-to-buffer buff-name)))
 
 ;;;###autoload
